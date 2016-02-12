@@ -10,24 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.slacktime;
+package org.camunda.bpm.slacktime.processengine;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.model.dmn.DmnModelInstance;
+import org.camunda.bpm.slacktime.DecisionRepository;
 
 /**
  * @author Thorben Lindhauer
  *
  */
-public class MockDistributionSource implements DistributionSource {
+public class EngineDecisionRepository implements DecisionRepository {
 
-  protected Map<String, Distribution> distributions = new HashMap<String, Distribution>();
+  protected RepositoryService repositoryService;
 
-  public void addDistribution(String input, Distribution distribution) {
-    distributions.put(input, distribution);
+  public EngineDecisionRepository(ProcessEngine processEngine) {
+    this.repositoryService = processEngine.getRepositoryService();
   }
 
-  public Distribution getDistribution(String dmnModelId, String input, VariableIndex variableIndex) {
-    return distributions.get(input);
+  public DmnModelInstance getDecisionModel(String id) {
+    return repositoryService.getDmnModelInstance(id);
   }
+
 }

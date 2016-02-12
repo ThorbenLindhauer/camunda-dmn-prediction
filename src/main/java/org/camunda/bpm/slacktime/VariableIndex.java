@@ -35,4 +35,8 @@ public class VariableIndex {
   public Collection<String> getVariableValues(String variable) {
     return sortedVariableValues.get(variable);
   }
+
+  public int getCardinality(String variable) {
+    return sortedVariableValues.size();
+  }
 }

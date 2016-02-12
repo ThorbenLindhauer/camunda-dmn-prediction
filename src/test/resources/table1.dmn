@@ -3,11 +3,12 @@
   <decision id="decision" name="">
     <decisionTable id="decisionTable">
       <input id="input1" label="season">
-        <inputExpression id="inputExpression1" typeRef="string">        <text></text>
+        <inputExpression id="inputExpression1" typeRef="string">        <text>season</text>
 </inputExpression>
       </input>
       <input id="InputClause_1oyg5on" label="hungry">
-        <inputExpression id="LiteralExpression_1hy45hl" typeRef="string" />
+        <inputExpression id="LiteralExpression_1hy45hl" typeRef="string">        <text>hungry</text>
+</inputExpression>
       </input>
       <output id="output1" label="eatIceCream" name="" typeRef="string" />
       <rule id="row-876493691-1">

@@ -46,12 +46,14 @@ public class CanonicalDmnModel {
 
   protected GraphicalModel<DiscreteFactor> graphicalModel;
   protected VariableIndex variableIndex;
+  protected String modelId;
 
   public static final String RULE_VARIABLE_NAME = "$rule";
 
   public static CanonicalDmnModel fromDmnModelInstance(String dmnModelId,
-      DmnModelInstance modelInstance, InputDistributionSource distributionSource) {
+      DmnModelInstance modelInstance, DistributionSource distributionSource) {
     CanonicalDmnModel model = new CanonicalDmnModel();
+    model.modelId = dmnModelId;
 
     Collection<Decision> decisions = modelInstance.getModelElementsByType(Decision.class);
 
@@ -112,7 +114,7 @@ public class CanonicalDmnModel {
 
     // build distributions P(A) where A is an input
     for (Input input : inputs) {
-      Distribution distribution = distributionSource.getDistribution(dmnModelId, input.getLabel());
+      Distribution distribution = distributionSource.getDistribution(dmnModelId, input.getLabel(), model.variableIndex);
 
       // values in canonical order
       List<String> sortedValues = sortedVariableValues.get(input.getLabel());

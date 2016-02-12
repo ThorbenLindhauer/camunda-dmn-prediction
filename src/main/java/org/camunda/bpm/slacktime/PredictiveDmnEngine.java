@@ -20,11 +20,11 @@ import org.camunda.bpm.model.dmn.DmnModelInstance;
  */
 public class PredictiveDmnEngine {
 
-  protected InputDistributionSource distributionSource;
+  protected DistributionSource distributionSource;
 
   protected DecisionRepository decisionRepository;
 
-  public PredictiveDmnEngine(DecisionRepository repository, InputDistributionSource distributionSource) {
+  public PredictiveDmnEngine(DecisionRepository repository, DistributionSource distributionSource) {
     this.decisionRepository = repository;
     this.distributionSource = distributionSource;
   }

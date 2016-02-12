@@ -12,7 +12,14 @@
  */
 package org.camunda.bpm.slacktime;
 
+import org.camunda.bpm.engine.repository.DecisionDefinition;
+import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.variable.Variables;
+import org.camunda.bpm.slacktime.processengine.EngineDecisionRepository;
+import org.camunda.bpm.slacktime.processengine.HistoryDistributionSource;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -23,13 +30,59 @@ import org.junit.Test;
 public class DmnPredictionTest {
 
   @Rule
-  protected ProcessEngineRule engineRule;
+  public ProcessEngineRule engineRule = new ProcessEngineRule();
+
+  protected PredictiveDmnEngine predictionEngine;
+
+  @Before
+  public void setUp() {
+    DecisionRepository decisionRepository = new EngineDecisionRepository(engineRule.getProcessEngine());
+    DistributionSource distributionSource = new HistoryDistributionSource(engineRule.getProcessEngine());
+
+    predictionEngine = new PredictiveDmnEngine(decisionRepository, distributionSource);
+  }
 
   @Test
-  public void testPreditictionWithIncompleteInputs() {
-    // TODO: test when interfaces are implemented backed by process engine and history
+  @Deployment(resources = "table1.dmn")
+  public void testRulePreditictionWithIncompleteInputs() {
+    // given
 
+    DecisionDefinition decisionDefinition = engineRule.getRepositoryService().createDecisionDefinitionQuery().singleResult();
+    String decisionId = decisionDefinition.getId();
 
+    evaluateDecisionTable(decisionId, "Winter", "no");
+    evaluateDecisionTable(decisionId, "Winter", "no");
+    evaluateDecisionTable(decisionId, "Winter", "yes");
+    evaluateDecisionTable(decisionId, "Winter", "yes");
+    evaluateDecisionTable(decisionId, "Winter", "yes");
+    evaluateDecisionTable(decisionId, "Winter", "yes");
+    evaluateDecisionTable(decisionId, "Summer", "no");
+    evaluateDecisionTable(decisionId, "Summer", "yes");
+    evaluateDecisionTable(decisionId, "Summer", "yes");
+    evaluateDecisionTable(decisionId, "Summer", "yes");
 
+    Predictor predictor = predictionEngine.getPredictor(decisionId);
+
+    // when
+    Evidence evidence = new Evidence();
+    evidence.submit("season", "\"Summer\"");
+
+    Distribution ruleDistribution = predictor.getPosterior("$rule", evidence);
+
+    double rule1Prob = ruleDistribution.getProbability("row-876493691-1");
+    double rule2Prob = ruleDistribution.getProbability("row-876493691-2");
+    double rule3Prob = ruleDistribution.getProbability("row-876493691-3");
+    double rule4Prob = ruleDistribution.getProbability("row-876493691-4");
+
+    Assert.assertTrue(rule1Prob > 0);
+    Assert.assertTrue(rule2Prob == 0);
+    Assert.assertTrue(rule3Prob > 0);
+    Assert.assertTrue(rule4Prob == 0);
+    Assert.assertTrue(rule1Prob > rule3Prob);
+  }
+
+  protected void evaluateDecisionTable(String decisionId, String season, String hungry) {
+    engineRule.getDecisionService().evaluateDecisionTableById(decisionId,
+        Variables.createVariables().putValue("season", season).putValue("hungry", hungry));
   }
 }

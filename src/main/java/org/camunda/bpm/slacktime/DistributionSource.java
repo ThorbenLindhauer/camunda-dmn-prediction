@@ -16,7 +16,7 @@ package org.camunda.bpm.slacktime;
  * @author Thorben Lindhauer
  *
  */
-public interface InputDistributionSource {
+public interface DistributionSource {
 
-  Distribution getDistribution(String dmnModelId, String input);
+  Distribution getDistribution(String dmnModelId, String variable, VariableIndex variableIndex);
 }
