@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn11.xsd" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decision" name="">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="season">
+        <inputExpression id="inputExpression1" typeRef="string">        <text></text>
+</inputExpression>
+      </input>
+      <input id="InputClause_1oyg5on" label="hungry">
+        <inputExpression id="LiteralExpression_1hy45hl" typeRef="string" />
+      </input>
+      <output id="output1" label="eatIceCream" name="" typeRef="string" />
+      <rule id="row-876493691-1">
+        <inputEntry id="UnaryTests_06zfzpb">        <text><![CDATA["Summer"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1bna268">        <text><![CDATA["yes"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1kos901">        <text><![CDATA["yes"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-876493691-2">
+        <inputEntry id="UnaryTests_0oc492c">        <text><![CDATA["Winter"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1s29na7">        <text><![CDATA["no"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1sph43i">        <text><![CDATA["no"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-876493691-3">
+        <inputEntry id="UnaryTests_0fcnwef">        <text><![CDATA["Summer"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1lhv9f8">        <text><![CDATA["no"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0pgibz8">        <text><![CDATA["yes"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-876493691-4">
+        <inputEntry id="UnaryTests_1c3pfwt">        <text><![CDATA["Winter"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1qzapyy">        <text><![CDATA["yes"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1vx9dz0">        <text><![CDATA["yes"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
